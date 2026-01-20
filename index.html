@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raymund & Yhumi | A Lifetime</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com/"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="noscroll">
+
+    <!-- Curtain Overlay -->
+    <div id="curtain-overlay" onclick="openCurtain()">
+        <div class="curtain-panel left">
+            <div class="curtain-img"></div>
+        </div>
+        <div class="curtain-panel right">
+            <div class="curtain-img"></div>
+        </div>
+        
+        <div id="curtain-petals" class="absolute inset-0 pointer-events-none z-50 overflow-hidden"></div>
+
+        <div class="curtain-content flex flex-col items-center justify-center gap-6">
+            <h1 class="script-font text-6xl md:text-9xl text-[#D4AF37] drop-shadow-lg text-center">R & Y</h1>
+            <p class="uppercase tracking-[0.3em] text-sm md:text-lg text-white drop-shadow-md text-center">A Lifetime in the Making</p>
+            <div class="mt-12 animate-pulse border border-white/50 rounded-full px-10 py-4 bg-black/20 backdrop-blur-md cursor-pointer hover:bg-white/20 transition duration-300">
+                <span class="uppercase tracking-widest text-xs font-bold text-white">Tap to Open</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- RSVP MODAL -->
+    <div id="rsvp-modal">
+        <div class="rsvp-content">
+            <div class="flex justify-between items-center p-4 border-b border-gray-200 bg-[#9DC183]">
+                <h3 class="serif text-xl text-[#2F3E28]">RSVP</h3>
+                <button onclick="toggleRSVP()" class="text-[#2F3E28] hover:text-white transition focus:outline-none">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="flex-grow bg-white overflow-hidden">
+                <!-- User Provided Form -->
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdL6M2oB0jDL3Y_hjEWuLXrq4GfZix8On-zWswUIryAUu2Vpg/viewform?embedded=true" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 left-0 py-6 px-4 md:px-12 flex justify-between items-center text-dark-green transition-all duration-300" id="navbar">
+        <div class="script-font text-2xl font-bold">R & Y</div>
+        <div class="hidden md:flex gap-8 text-sm uppercase tracking-widest font-medium">
+            <a href="#home" class="hover:text-[#D4AF37] transition">Home</a>
+            <a href="#story" class="hover:text-[#D4AF37] transition">Story</a>
+            <a href="#details" class="hover:text-[#D4AF37] transition">Details</a>
+            <a href="#gallery" class="hover:text-[#D4AF37] transition">Gallery</a>
+            <button onclick="toggleRSVP()" class="hover:text-[#D4AF37] transition uppercase tracking-widest">RSVP</button>
+        </div>
+        <button class="md:hidden text-white focus:outline-none" onclick="toggleMobileMenu()">
+            <i data-lucide="menu"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-[#F9F9F5] transform translate-x-full transition-transform duration-300 flex flex-col items-center justify-center gap-8 shadow-2xl">
+        <button class="absolute top-6 right-4 text-dark-green focus:outline-none" onclick="toggleMobileMenu()">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        <a href="#home" onclick="toggleMobileMenu()" class="serif text-3xl">Home</a>
+        <a href="#story" onclick="toggleMobileMenu()" class="serif text-3xl">Story</a>
+        <a href="#details" onclick="toggleMobileMenu()" class="serif text-3xl">Details</a>
+        <a href="#gallery" onclick="toggleMobileMenu()" class="serif text-3xl">Gallery</a>
+        <button onclick="toggleMobileMenu(); toggleRSVP();" class="serif text-3xl">RSVP</button>
+    </div>
+
+    <!-- Flying Petals Container -->
+    <div id="petals-container"></div>
+
+    <!-- Floating Spotify Player -->
+    <div class="floating-music" id="music-player">
+        <div class="music-tooltip" id="music-tooltip">
+            Tap to listen
+        </div>
+        
+        <div class="spotify-embed-container">
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5FW5etf6ugHLEhQ1aKc8VV?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+        <div class="music-disc playing" onclick="toggleMusic()">
+            <i data-lucide="music" class="w-6 h-6"></i>
+        </div>
+    </div>
+
+    <!-- WRAPPER -->
+    <div class="ghl-breakout">
+        <!-- Hero Section -->
+        <section id="home" class="relative h-[100dvh] flex items-center justify-center overflow-hidden touch-pan-y">
+            <div class="absolute inset-0 z-0 overflow-hidden bg-black">
+                <img src="./images/hero.jpg" alt="Couple" class="w-full h-full object-cover object-center brightness-[0.70] transform-gpu">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30"></div>
+            </div>
+
+            <div class="relative z-10 text-center text-white px-4 fade-in-section max-w-full">
+                <p class="uppercase tracking-[0.4em] text-sm md:text-lg mb-4 opacity-90 text-[#D4AF37]">We're getting married</p>
+                <h1 class="serif text-5xl md:text-8xl lg:text-9xl mb-4 leading-none drop-shadow-2xl">Raymund & Yhumi</h1>
+                <p class="script-font text-3xl md:text-5xl text-white/90 mt-2">A Lifetime</p>
+                
+                <div class="mt-12 flex flex-col md:flex-row gap-8 justify-center items-center text-center">
+                    <div class="border-t border-b border-white/40 py-4 px-10 backdrop-blur-md bg-white/5">
+                        <p class="text-xl md:text-3xl font-serif">December 12, 2026</p>
+                        <p class="text-sm uppercase tracking-widest mt-2 font-light">Saturday at 2:00 PM</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-10 z-20 animate-bounce cursor-pointer" onclick="document.getElementById('quote-section').scrollIntoView({behavior: 'smooth'})">
+                <i data-lucide="chevron-down" class="text-white w-8 h-8 opacity-70"></i>
+            </div>
+        </section>
+
+        <!-- Quote Section -->
+        <section id="quote-section" class="py-20 md:py-32 relative text-center px-6 overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-10">
+            </div>
+            <div class="relative z-10 max-w-2xl mx-auto fade-in-section">
+                <i data-lucide="quote" class="w-12 h-12 text-[#9DC183] mx-auto mb-6 opacity-80"></i>
+                <h2 class="serif text-3xl md:text-5xl italic leading-tight text-dark-green">
+                    "Love doesn't make the world go round; love is what makes the ride worthwhile."
+                </h2>
+            </div>
+        </section>
+
+        <!-- Countdown Section -->
+        <section class="py-16 bg-[#2F3E28] text-[#F9F9F5] border-y-4 border-[#D4AF37]">
+            <div class="container mx-auto px-4 text-center">
+                <h3 class="uppercase tracking-[0.3em] text-sm mb-12 opacity-80">Counting down to forever</h3>
+                <div class="flex flex-wrap justify-center gap-8 md:gap-16" id="countdown">
+                    <!-- Javascript will populate this -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Story -->
+        <section id="story" class="py-24 md:py-32 px-4 bg-[#F9F9F5]">
+            <div class="container mx-auto max-w-6xl">
+                <div class="flex flex-col md:flex-row items-center gap-16">
+                    <div class="w-full md:w-1/2 relative fade-in-section group">
+                        <div class="absolute inset-0 border-2 border-[#9DC183] transform translate-x-4 translate-y-4 z-0 transition duration-500 group-hover:translate-x-2 group-hover:translate-y-2"></div>
+                        <img src="./images/1.jpg" alt="Our Story" class="relative z-10 w-full shadow-2xl grayscale hover:grayscale-0 transition duration-1000 ease-in-out">
+                    </div>
+                    <div class="w-full md:w-1/2 fade-in-section">
+                        <h2 class="script-font text-5xl md:text-6xl text-[#556B2F] mb-6">Our Story</h2>
+                        <p class="serif text-lg leading-relaxed text-gray-700 mb-6">
+                            We began as colleagues, worlds apart in belief yet drawn together by something we couldn't ignore. What started as shared days slowly turned into shared dreams.
+                        </p>
+                        <p class="serif text-lg leading-relaxed text-gray-700">
+                            Love bridged every difference, and today we choose each other—tying the knot and promising a lifetime of forever, together.
+                        </p>
+                        <div class="mt-8 flex items-center gap-4">
+                            <img src="./images/thumbnail.jpg" class="w-24 h-24 object-cover rounded-full border-2 border-[#D4AF37] shadow-lg">
+                            <div class="h-px bg-gray-300 flex-grow"></div>
+                            <i data-lucide="heart" class="text-[#D4AF37] fill-current w-6 h-6"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Details & Map -->
+        <section id="details" class="py-24 bg-white relative">
+            <div class="absolute top-0 right-0 w-64 h-64 opacity-10 pointer-events-none overflow-hidden">
+                <img src="https://png.pngtree.com/png-vector/20220610/ourmid/pngtree-watercolor-green-leaves-png-image_4963383.png" class="w-full h-full object-contain transform rotate-180">
+            </div>
+
+            <div class="container mx-auto px-4 max-w-5xl">
+                <h2 class="serif text-5xl text-center mb-16 text-[#2F3E28]">The Details</h2>
+                
+                <div class="grid md:grid-cols-2 gap-12 mb-16">
+                    <!-- Ceremony -->
+                    <div class="text-center fade-in-section bg-[#F9F9F5] rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition overflow-hidden group">
+                        <div class="h-56 overflow-hidden relative">
+                            <img src="./images/church.jpg" alt="Immaculate Conception Parish" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition"></div>
+                        </div>
+                        <div class="p-8">
+                            <div class="inline-block p-4 rounded-full bg-white shadow-sm mb-6 -mt-16 relative z-10">
+                                <i data-lucide="church" class="w-8 h-8 text-[#556B2F]"></i>
+                            </div>
+                            <h3 class="serif text-3xl mb-2">The Ceremony</h3>
+                            <p class="uppercase tracking-widest text-sm text-[#D4AF37] font-bold mb-4">2:00 PM</p>
+                            <p class="font-medium text-lg mb-2">Immaculate Conception Parish</p>
+                            <p class="text-gray-600 mb-6">Naga City</p>
+                            
+                            <div class="map-container h-64 w-full rounded-lg overflow-hidden shadow-inner mb-4 bg-gray-100 relative group/map">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1630.3297784715735!2d123.20055508615751!3d13.621252618504245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a18cd26aaaaaab%3A0x28f11207d8c70286!2sOur%20Lady%20of%20the%20Immaculate%20Conception%20Parish%20Church%20-%20Concepcion%20Peque%C3%B1a%2C%20Naga%20City%2C%20Camarines%20Sur%20(Archdiocese%20of%20Caceres)!5e0!3m2!1sen!2sph!4v1768901409948!5m2!1sen!2sph" width="100%" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                <a href="https://maps.app.goo.gl/PpsGgMnixN78GpKs7" target="_blank" class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover/map:opacity-100 transition duration-300">
+                                    <span class="bg-white text-dark-green px-6 py-2 rounded-full font-medium">Open Map</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reception -->
+                    <div class="text-center fade-in-section bg-[#F9F9F5] rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition overflow-hidden group" style="transition-delay: 200ms;">
+                        <div class="h-56 overflow-hidden relative">
+                            <img src="./images/reception.jpg" alt="Royale Emelina" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition"></div>
+                        </div>
+                        <div class="p-8">
+                            <div class="inline-block p-4 rounded-full bg-white shadow-sm mb-6 -mt-16 relative z-10">
+                                <i data-lucide="wine" class="w-8 h-8 text-[#556B2F]"></i>
+                            </div>
+                            <h3 class="serif text-3xl mb-2">The Reception</h3>
+                            <p class="uppercase tracking-widest text-sm text-[#D4AF37] font-bold mb-4">Following Ceremony</p>
+                            <p class="font-medium text-lg mb-2">Royale Emelina</p>
+                            <p class="text-gray-600 mb-6">Naga City</p>
+                            
+                            <div class="map-container h-64 w-full rounded-lg overflow-hidden shadow-inner mb-4 bg-gray-100 relative group/map">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3877.5130452811486!2d123.19716047471935!3d13.62652618675237!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a18ccce01f23cf%3A0xc529a8ea5db7b89c!2sRoyale%20Emelina!5e0!3m2!1sen!2sph!4v1768901909102!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                <a href="https://maps.app.goo.gl/FtREMki5TSbPpagx8" target="_blank" class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover/map:opacity-100 transition duration-300">
+                                    <span class="bg-white text-dark-green px-6 py-2 rounded-full font-medium">Open Map</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unplugged Reminder -->
+                <div class="bg-gradient-to-r from-[#2F3E28] to-[#3a4d32] text-white p-8 md:p-12 rounded-2xl text-center max-w-3xl mx-auto shadow-xl fade-in-section">
+                    <i data-lucide="camera-off" class="w-10 h-10 mx-auto text-[#9DC183] mb-4"></i>
+                    <h4 class="serif text-2xl mb-2">Unplugged Ceremony</h4>
+                    <p class="text-white/80">We invite you to be fully present with us during our ceremony. Please turn off phones and cameras and enjoy this special moment with us.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dress Code -->
+        <section class="py-24 bg-[#F3F4F1] text-center relative overflow-hidden">
+            <div class="container mx-auto px-4 fade-in-section relative z-10">
+                <h2 class="script-font text-6xl mb-12 text-[#556B2F]">Attire Guide</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="bg-white p-10 rounded-xl shadow-lg border-t-4 border-[#556B2F]">
+                        <h3 class="serif text-3xl mb-2 text-dark-green">Ladies</h3>
+                        <div class="h-px w-12 bg-[#D4AF37] mx-auto mb-6"></div>
+                        <p class="mb-4 font-medium uppercase tracking-wider text-sm">Formal Long Gown</p>
+                        <p class="text-xs text-gray-500 mb-6 italic">Elegance in Earth Tones</p>
+                        <div class="flex justify-center gap-4 mt-6">
+                            <div class="flex flex-col items-center gap-2">
+                                <div class="w-12 h-12 rounded-full bg-[#556B2F] shadow-inner"></div>
+                                <span class="text-xs uppercase">Olive</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-2">
+                                <div class="w-12 h-12 rounded-full bg-[#9DC183] shadow-inner"></div>
+                                <span class="text-xs uppercase">Sage</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-10 rounded-xl shadow-lg border-t-4 border-[#9DC183]">
+                        <h3 class="serif text-3xl mb-2 text-dark-green">Gentlemen</h3>
+                        <div class="h-px w-12 bg-[#D4AF37] mx-auto mb-6"></div>
+                        <p class="mb-4 font-medium uppercase tracking-wider text-sm">Long or Short Sleeve Polo</p>
+                        <p class="text-xs text-gray-500 mb-6 italic">Classic & Sharp</p>
+                        <div class="bg-gray-100 p-4 rounded text-xs text-gray-600 mt-4">
+                            Please avoid wearing white, t-shirts, and shorts.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery -->
+        <section id="gallery" class="py-24 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="serif text-5xl text-center mb-16 text-[#2F3E28]">Captured Moments</h2>
+                
+                <div class="columns-1 md:columns-2 lg:columns-3 gap-6 max-w-6xl mx-auto space-y-6">
+                    <!-- Photo 1 -->
+                    <div class="gallery-item fade-in-section">
+                        <img src="./images/1.jpg" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                    </div>
+                    <!-- Photo 2 -->
+                    <div class="gallery-item fade-in-section">
+                        <img src="./images/6.jpg" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                    </div>
+                    <!-- Photo 3 -->
+                    <div class="gallery-item fade-in-section">
+                        <img src="./images/2.jpg" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                    </div>
+                    <!-- Photo 4 -->
+                    <div class="gallery-item fade-in-section">
+                        <img src="./images/4.jpg" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                    </div>
+                    <!-- Photo 5 -->
+                    <div class="gallery-item fade-in-section">
+                        <img src="./images/7.jpg" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                    </div>
+                    <!-- Photo 6 -->
+                    <div class="gallery-item fade-in-section">
+                        <img src="./images/3.jpg" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                    </div>
+                    <!-- Photo 7 -->
+                    <div class="gallery-item fade-in-section">
+                        <img src="./images/5.jpg" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                    </div>
+                    <!-- Photo 8 -->
+                    <div class="gallery-item fade-in-section">
+                        <img src="./images/8.jpg" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RSVP Placeholder -->
+        <section id="rsvp" class="py-24 bg-[#2F3E28] text-white text-center relative overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop" class="w-full h-full object-cover opacity-20">
+            </div>
+            <div class="container mx-auto px-4 fade-in-section relative z-10">
+                <h2 class="serif text-5xl mb-6">RSVP</h2>
+                <p class="mb-8 opacity-80 text-lg">We can't wait to celebrate with you.</p>
+                <button onclick="toggleRSVP()" class="inline-block bg-[#D4AF37] hover:bg-[#C5A028] text-white font-medium py-4 px-10 rounded shadow-lg transition transform hover:-translate-y-1 tracking-widest uppercase">
+                    Confirm Attendance
+                </button>
+                <p class="mt-12 text-sm opacity-50">Entourage TBA</p>
+            </div>
+        </section>
+
+        <footer class="py-8 bg-[#1a2316] text-center text-white/30 text-xs">
+            <p>Raymund & Yhumi • 2026</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>
