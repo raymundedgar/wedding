@@ -42,10 +42,13 @@ function openCurtain() {
     const curtain = document.getElementById('curtain-overlay');
     curtain.classList.add('open');
     
-    // Remove position fixed to allow scrolling
+    // Remove scroll lock - multiple methods for reliability
     document.body.classList.remove('noscroll');
     document.body.style.position = '';
     document.body.style.width = '';
+    document.body.style.overflow = '';
+    document.body.style.height = '';
+    document.documentElement.style.overflow = '';
     
     clearInterval(curtainPetalInterval);
     const curtainPetalContainer = document.getElementById('curtain-petals');
@@ -54,8 +57,20 @@ function openCurtain() {
     setTimeout(() => {
         curtain.classList.add('hidden');
         startPetals();
+        
+        // Extra safety check - ensure scroll is enabled
+        document.body.classList.remove('noscroll');
+        document.body.style.overflow = 'auto';
     }, 1500);
 }
+
+// Fallback: Force enable scroll after 3 seconds (safety net)
+setTimeout(() => {
+    document.body.classList.remove('noscroll');
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.documentElement.style.overflow = '';
+}, 3000);
 
 // Music Toggle
 function toggleMusic() {
@@ -185,8 +200,16 @@ function toggleMobileMenu() {
     
     if (isOpen) {
         menu.classList.add('translate-x-full');
+        // Re-enable body scroll
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.height = '';
     } else {
         menu.classList.remove('translate-x-full');
+        // Prevent body scroll when menu is open
+        document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.width = '100%';
     }
 }
 
@@ -198,9 +221,14 @@ function toggleRSVP() {
     if (isOpen) {
         modal.classList.remove('open');
         document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.height = '';
     } else {
         modal.classList.add('open');
         document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.width = '100%';
+        document.body.style.height = '100%';
     }
 }
 
@@ -210,3 +238,21 @@ document.getElementById('rsvp-modal').addEventListener('click', (e) => {
         toggleRSVP();
     }
 });
+
+// Mobile scroll fix: Ensure body scrolling is always enabled
+// This is a safety check that runs periodically
+setInterval(() => {
+    const curtain = document.getElementById('curtain-overlay');
+    const rsvpModal = document.getElementById('rsvp-modal');
+    
+    // Only enable scroll if curtain is hidden and RSVP is closed
+    if (curtain && curtain.classList.contains('hidden') && 
+        rsvpModal && !rsvpModal.classList.contains('open')) {
+        if (document.body.classList.contains('noscroll')) {
+            document.body.classList.remove('noscroll');
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.height = '';
+        }
+    }
+}, 1000);

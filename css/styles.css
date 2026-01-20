@@ -23,6 +23,17 @@ body.noscroll {
     height: 100vh;
     position: fixed;
     width: 100%;
+    /* Prevent iOS Safari bounce scrolling */
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure scrolling works after curtain opens */
+body:not(.noscroll) {
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: static;
+    height: auto;
 }
 
 /* --- CSS Variables --- */
@@ -70,6 +81,18 @@ h1, h2, h3, .serif {
     transform: translateZ(0);
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    /* Better touch handling on mobile */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure curtain can be clicked/tapped on mobile */
+#curtain-overlay:not(.hidden) {
+    cursor: pointer;
+}
+
+#curtain-overlay.open {
+    pointer-events: none;
 }
 
 .curtain-panel {
