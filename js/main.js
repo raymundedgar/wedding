@@ -42,6 +42,16 @@ function openCurtain() {
     const curtain = document.getElementById('curtain-overlay');
     curtain.classList.add('open');
 
+    // Start background music directly inside this handler — this is the
+    // one guaranteed real user gesture on the page ("Tap to Open"), so
+    // calling play() here (rather than relying only on a generic
+    // document-level listener) is the most reliable way to satisfy
+    // mobile browsers' autoplay-requires-gesture policies.
+    const bgMusic = document.getElementById('bg-music');
+    if (bgMusic) {
+        bgMusic.play().catch(() => {});
+    }
+
     // Remove scroll lock - multiple methods for reliability
     document.body.classList.remove('noscroll');
     document.body.style.position = '';
@@ -117,15 +127,27 @@ setInterval(updateCountdown, 1000);
 updateCountdown();
 
 // Flying Petals
+let isUserScrolling = false;
+let scrollStopTimer;
+window.addEventListener('scroll', () => {
+    isUserScrolling = true;
+    clearTimeout(scrollStopTimer);
+    scrollStopTimer = setTimeout(() => { isUserScrolling = false; }, 200);
+}, { passive: true });
+
 function startPetals() {
     const container = document.getElementById('petals-container');
     const colors = ['#F9F9F5', '#E8F5E9', '#FFFFFF'];
 
     const isMobile = window.innerWidth < 768;
-    const spawnRate = isMobile ? 1200 : 600;
+    const spawnRate = isMobile ? 1800 : 600;
+    const maxPetals = isMobile ? 5 : 30;
 
     setInterval(() => {
-        if(container.childElementCount > (isMobile ? 10 : 30)) return;
+        // Skip spawning new petals while the user is actively scrolling,
+        // so the main thread isn't doing DOM work during the scroll gesture
+        if (isUserScrolling) return;
+        if(container.childElementCount > maxPetals) return;
 
         const petal = document.createElement('div');
         petal.classList.add('petal');
@@ -181,6 +203,27 @@ window.addEventListener('scroll', () => {
     }
 }, { passive: true });
 
+// Shared scroll-lock helper that preserves scroll position across
+// position:fixed toggling (prevents the page jumping to top on close)
+let lockedScrollY = 0;
+
+function lockBodyScroll() {
+    lockedScrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${lockedScrollY}px`;
+    document.body.style.width = '100%';
+    document.body.style.overflow = 'hidden';
+}
+
+function unlockBodyScroll() {
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.style.overflow = '';
+    document.body.style.height = '';
+    window.scrollTo(0, lockedScrollY);
+}
+
 // Mobile Menu
 function toggleMobileMenu() {
     const menu = document.getElementById('mobile-menu');
@@ -188,16 +231,10 @@ function toggleMobileMenu() {
 
     if (isOpen) {
         menu.classList.add('translate-x-full');
-        // Re-enable body scroll
-        document.body.style.overflow = '';
-        document.body.style.position = '';
-        document.body.style.height = '';
+        unlockBodyScroll();
     } else {
         menu.classList.remove('translate-x-full');
-        // Prevent body scroll when menu is open
-        document.body.style.overflow = 'hidden';
-        document.body.style.position = 'fixed';
-        document.body.style.width = '100%';
+        lockBodyScroll();
     }
 }
 
@@ -208,15 +245,10 @@ function toggleRSVP() {
 
     if (isOpen) {
         modal.classList.remove('open');
-        document.body.style.overflow = '';
-        document.body.style.position = '';
-        document.body.style.height = '';
+        unlockBodyScroll();
     } else {
         modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        document.body.style.position = 'fixed';
-        document.body.style.width = '100%';
-        document.body.style.height = '100%';
+        lockBodyScroll();
     }
 }
 
@@ -227,13 +259,15 @@ document.getElementById('rsvp-modal').addEventListener('click', (e) => {
     }
 });
 
-// Mobile scroll fix: Ensure body scrolling is always enabled
-// This is a safety check that runs periodically
-setInterval(() => {
+// Mobile scroll fix: Ensure body scrolling is always enabled.
+// Safety-net check, but bounded — no need to poll forever after the
+// curtain has opened once, since that was the only real risk window.
+let scrollFixChecks = 0;
+const scrollFixInterval = setInterval(() => {
+    scrollFixChecks++;
     const curtain = document.getElementById('curtain-overlay');
     const rsvpModal = document.getElementById('rsvp-modal');
 
-    // Only enable scroll if curtain is hidden and RSVP is closed
     if (curtain && curtain.classList.contains('hidden') &&
         rsvpModal && !rsvpModal.classList.contains('open')) {
         if (document.body.classList.contains('noscroll')) {
@@ -243,4 +277,6 @@ setInterval(() => {
             document.body.style.height = '';
         }
     }
+
+    if (scrollFixChecks > 10) clearInterval(scrollFixInterval); // stop after ~10s
 }, 1000);
