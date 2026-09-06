@@ -36,7 +36,7 @@ function startCurtainPetals() {
 }
 
 // Start curtain petals immediately
-startCurtainPetals();
+// startCurtainPetals();
 
 function openCurtain() {
     const curtain = document.getElementById('curtain-overlay');
