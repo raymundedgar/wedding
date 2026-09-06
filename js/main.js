@@ -66,7 +66,7 @@ function openCurtain() {
 
     setTimeout(() => {
         curtain.classList.add('hidden');
-        startPetals();
+        // startPetals();
 
         // Extra safety check - ensure scroll is enabled
         document.body.classList.remove('noscroll');
