@@ -36,7 +36,7 @@ function startCurtainPetals() {
 }
 
 // Start curtain petals immediately
-// startCurtainPetals();
+startCurtainPetals();
 
 function openCurtain() {
     const curtain = document.getElementById('curtain-overlay');
@@ -66,7 +66,7 @@ function openCurtain() {
 
     setTimeout(() => {
         curtain.classList.add('hidden');
-        // startPetals();
+        startPetals();
 
         // Extra safety check - ensure scroll is enabled
         document.body.classList.remove('noscroll');

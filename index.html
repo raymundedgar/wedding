@@ -88,7 +88,7 @@
     <!-- WRAPPER -->
     <div class="ghl-breakout">
         <!-- Hero Section -->
-        <section id="home" class="relative h-[100dvh] flex items-center justify-center overflow-hidden">
+        <section id="home" class="relative h-[100dvh] flex items-center justify-center overflow-hidden touch-pan-y">
             <div class="absolute inset-0 z-0 overflow-hidden bg-black">
                 <img src="./images/hero.jpg" alt="Couple" width="6000" height="4000" fetchpriority="high" class="w-full h-full object-cover object-left-top brightness-[0.70] transform-gpu">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30"></div>
@@ -105,6 +105,10 @@
                         <p class="text-sm uppercase tracking-widest mt-2 font-light">Saturday at 2:00 PM</p>
                     </div>
                 </div>
+            </div>
+
+            <div class="absolute bottom-10 z-20 animate-bounce cursor-pointer" onclick="document.getElementById('quote-section').scrollIntoView({behavior: 'smooth'})">
+                <i data-lucide="chevron-down" class="text-white w-8 h-8 opacity-70"></i>
             </div>
         </section>
 
@@ -309,7 +313,7 @@
         </section>
 
         <!-- RSVP Placeholder -->
-        <section id="rsvp" class="py-24 bg-[#2F3E28] text-white text-center relative overflow-hidden">
+        <!-- <section id="rsvp" class="py-24 bg-[#2F3E28] text-white text-center relative overflow-hidden">
             <div class="absolute inset-0 z-0">
                 <img src="images/rsvp-bg.jpg" loading="lazy" class="w-full h-full object-cover opacity-20">
             </div>
@@ -320,7 +324,7 @@
                     Confirm Attendance
                 </button>
             </div>
-        </section>
+        </section> -->
 
         <footer class="py-8 bg-[#1a2316] text-center text-white/30 text-xs">
             <p>Raymund & Yhumi • 2026</p>
