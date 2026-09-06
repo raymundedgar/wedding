@@ -90,7 +90,7 @@
         <!-- Hero Section -->
         <section id="home" class="relative h-[100dvh] flex items-center justify-center overflow-hidden touch-pan-y">
             <div class="absolute inset-0 z-0 overflow-hidden bg-black">
-                <img src="./images/hero.jpg" alt="Couple" width="6000" height="4000" fetchpriority="high" class="w-full h-full object-cover object-left-top brightness-[0.70] transform-gpu">
+                <img src="./images/hero.jpg" alt="Couple" fetchpriority="high" class="w-full h-full object-cover object-left-top brightness-[0.70] transform-gpu">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30"></div>
             </div>
 
@@ -107,7 +107,7 @@
                 </div>
             </div>
 
-            <div class="absolute bottom-10 z-20 animate-bounce cursor-pointer" onclick="document.getElementById('quote-section').scrollIntoView({behavior: 'smooth'})">
+            <div class="absolute bottom-10 z-20 animate-bounce cursor-pointer" onclick="document.getElementById('quote-section').scrollIntoView()">
                 <i data-lucide="chevron-down" class="text-white w-8 h-8 opacity-70"></i>
             </div>
         </section>
@@ -141,7 +141,7 @@
                 <div class="flex flex-col md:flex-row items-center gap-16">
                     <div class="w-full md:w-1/2 relative fade-in-section group">
                         <div class="absolute inset-0 border-2 border-[#9DC183] transform translate-x-4 translate-y-4 z-0"></div>
-                        <img src="./images/how-we-met.jpg" alt="Our Story" loading="lazy" width="960" height="1280" class="relative z-10 w-full">
+                        <img src="./images/how-we-met.jpg" alt="Our Story" loading="lazy" class="relative z-10 w-full">
                     </div>
                     <div class="w-full md:w-1/2 fade-in-section">
                         <h2 class="script-font text-5xl md:text-6xl text-[#556B2F] mb-6">Our Story</h2>
@@ -155,7 +155,7 @@
                             Unbeknownst to them, their college friendship is the start of their stories as they navigate life - each pursuing individual careers and growing as a person separately. In years living with separate directions, their paths would, in time, cross once more, knowing each other more deeply and continuing friendship to a lifetime journey as a couple.
                         </p>
                         <div class="mt-8 flex items-center gap-4">
-                            <img src="./images/thumbnail.jpg" loading="lazy" width="4000" height="6000" class="w-24 h-24 object-cover rounded-full border-2 border-[#D4AF37] shadow-lg">
+                            <img src="./images/thumbnail.jpg" loading="lazy" class="w-24 h-24 object-cover rounded-full border-2 border-[#D4AF37] shadow-lg">
                             <div class="h-px bg-gray-300 flex-grow"></div>
                             <i data-lucide="heart" class="text-[#D4AF37] fill-current w-6 h-6"></i>
                         </div>
@@ -173,7 +173,7 @@
                     <!-- Ceremony -->
                     <div class="text-center fade-in-section bg-[#F9F9F5] rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition overflow-hidden group">
                         <div class="h-56 overflow-hidden relative">
-                            <img src="./images/church.jpg" alt="Immaculate Conception Parish" loading="lazy" width="1920" height="1440" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <img src="./images/church.jpg" alt="Immaculate Conception Parish" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                             <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition"></div>
                         </div>
                         <div class="p-8">
@@ -197,7 +197,7 @@
                     <!-- Reception -->
                     <div class="text-center fade-in-section bg-[#F9F9F5] rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition overflow-hidden group" style="transition-delay: 200ms;">
                         <div class="h-56 overflow-hidden relative">
-                            <img src="./images/reception.jpg" alt="Royale Emelina" loading="lazy" width="413" height="295" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <img src="./images/reception.jpg" alt="Royale Emelina" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                             <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition"></div>
                         </div>
                         <div class="p-8">
@@ -278,42 +278,42 @@
                 <div class="columns-1 md:columns-2 lg:columns-3 gap-6 max-w-6xl mx-auto space-y-6">
                     <!-- Photo 1 -->
                     <div class="gallery-item fade-in-section">
-                        <img src="./images/1.jpg" loading="lazy" width="4000" height="6000" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                        <img src="./images/1.jpg" loading="lazy" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
                     </div>
                     <!-- Photo 2 -->
                     <div class="gallery-item fade-in-section">
-                        <img src="./images/2.jpg" loading="lazy" width="6000" height="4000" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                        <img src="./images/2.jpg" loading="lazy" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
                     </div>
                     <!-- Photo 3 -->
                     <div class="gallery-item fade-in-section">
-                        <img src="./images/3.jpg" loading="lazy" width="6000" height="4000" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                        <img src="./images/3.jpg" loading="lazy" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
                     </div>
                     <!-- Photo 8 -->
                     <div class="gallery-item fade-in-section">
-                        <img src="./images/8.jpg" loading="lazy" width="3936" height="2624" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                        <img src="./images/8.jpg" loading="lazy" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
                     </div>
                     <!-- Photo 4 -->
                     <div class="gallery-item fade-in-section">
-                        <img src="./images/4.jpg" loading="lazy" width="6000" height="4000" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                        <img src="./images/4.jpg" loading="lazy" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
                     </div>
                     <!-- Photo 5 -->
                     <div class="gallery-item fade-in-section">
-                        <img src="./images/5.jpg" loading="lazy" width="2624" height="3936" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                        <img src="./images/5.jpg" loading="lazy" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
                     </div>
                     <!-- Photo 6 -->
                     <div class="gallery-item fade-in-section">
-                        <img src="./images/6.jpg" loading="lazy" width="4000" height="6000" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                        <img src="./images/6.jpg" loading="lazy" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
                     </div>
                     <!-- Photo 7 -->
                     <div class="gallery-item fade-in-section">
-                        <img src="./images/7.jpg" loading="lazy" width="4000" height="6000" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
+                        <img src="./images/7.jpg" loading="lazy" class="w-full rounded-lg shadow-md hover:shadow-xl transition duration-500">
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- RSVP Placeholder -->
-        <!-- <section id="rsvp" class="py-24 bg-[#2F3E28] text-white text-center relative overflow-hidden">
+        <section id="rsvp" class="py-24 bg-[#2F3E28] text-white text-center relative overflow-hidden">
             <div class="absolute inset-0 z-0">
                 <img src="images/rsvp-bg.jpg" loading="lazy" class="w-full h-full object-cover opacity-20">
             </div>
@@ -324,7 +324,7 @@
                     Confirm Attendance
                 </button>
             </div>
-        </section> -->
+        </section>
 
         <footer class="py-8 bg-[#1a2316] text-center text-white/30 text-xs">
             <p>Raymund & Yhumi • 2026</p>

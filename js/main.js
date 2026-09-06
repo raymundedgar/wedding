@@ -67,20 +67,8 @@ function openCurtain() {
     setTimeout(() => {
         curtain.classList.add('hidden');
         startPetals();
-
-        // Extra safety check - ensure scroll is enabled
-        document.body.classList.remove('noscroll');
-        document.body.style.overflow = 'auto';
     }, 1500);
 }
-
-// Fallback: Force enable scroll after 3 seconds (safety net)
-setTimeout(() => {
-    document.body.classList.remove('noscroll');
-    document.body.style.overflow = '';
-    document.body.style.position = '';
-    document.documentElement.style.overflow = '';
-}, 3000);
 
 // Music Toggle
 function toggleMusic() {
