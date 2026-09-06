@@ -115,7 +115,7 @@ h1, h2, h3, .serif {
     width: 200%;
     background-image: url('../images/splash.jpg');
     background-size: cover;
-    background-position: center;
+    background-position: bottom;
     background-repeat: no-repeat;
     z-index: 0;
 }
@@ -195,31 +195,31 @@ h1, h2, h3, .serif {
 }
 
 @keyframes fall {
-    0% { 
-        transform: translate(0, 0) rotate(0deg); 
-        opacity: 0; 
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0;
     }
-    10% { 
-        opacity: 0.8; 
+    10% {
+        opacity: 0.8;
     }
-    90% { 
-        opacity: 0.8; 
+    90% {
+        opacity: 0.8;
     }
-    100% { 
-        transform: translate(20px, 110vh) rotate(360deg); 
-        opacity: 0; 
+    100% {
+        transform: translate(20px, 110vh) rotate(360deg);
+        opacity: 0;
     }
 }
 
 /* --- Navigation --- */
 @keyframes slideDown {
-    from { 
-        transform: translateY(-100%); 
-        opacity: 0; 
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
     }
-    to { 
-        transform: translateY(0); 
-        opacity: 1; 
+    to {
+        transform: translateY(0);
+        opacity: 1;
     }
 }
 
@@ -329,8 +329,8 @@ nav a:hover::after {
 }
 
 @keyframes spin {
-    100% { 
-        transform: rotate(360deg); 
+    100% {
+        transform: rotate(360deg);
     }
 }
 

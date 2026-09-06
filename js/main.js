@@ -7,26 +7,26 @@ let curtainPetalInterval;
 function startCurtainPetals() {
     const container = document.getElementById('curtain-petals');
     const colors = ['#D4AF37', '#FFF', '#F9F9F5', '#E8F5E9'];
-    
+
     const isMobile = window.innerWidth < 768;
     const intervalTime = isMobile ? 800 : 400;
-    
+
     curtainPetalInterval = setInterval(() => {
         const petal = document.createElement('div');
         petal.classList.add('petal');
-        
+
         const left = Math.random() * 90;
         const size = Math.random() * 8 + 5;
         const duration = Math.random() * 4 + 4;
         const color = colors[Math.floor(Math.random() * colors.length)];
-        
+
         petal.style.left = `${left}vw`;
         petal.style.width = `${size}px`;
         petal.style.height = `${size}px`;
         petal.style.backgroundColor = color;
         petal.style.animationDuration = `${duration}s`;
         petal.style.opacity = Math.random() * 0.5 + 0.3;
-        
+
         container.appendChild(petal);
 
         setTimeout(() => {
@@ -41,7 +41,7 @@ startCurtainPetals();
 function openCurtain() {
     const curtain = document.getElementById('curtain-overlay');
     curtain.classList.add('open');
-    
+
     // Remove scroll lock - multiple methods for reliability
     document.body.classList.remove('noscroll');
     document.body.style.position = '';
@@ -49,7 +49,7 @@ function openCurtain() {
     document.body.style.overflow = '';
     document.body.style.height = '';
     document.documentElement.style.overflow = '';
-    
+
     clearInterval(curtainPetalInterval);
     const curtainPetalContainer = document.getElementById('curtain-petals');
     if(curtainPetalContainer) curtainPetalContainer.innerHTML = '';
@@ -57,7 +57,7 @@ function openCurtain() {
     setTimeout(() => {
         curtain.classList.add('hidden');
         startPetals();
-        
+
         // Extra safety check - ensure scroll is enabled
         document.body.classList.remove('noscroll');
         document.body.style.overflow = 'auto';
@@ -76,7 +76,7 @@ setTimeout(() => {
 function toggleMusic() {
     const player = document.getElementById('music-player');
     player.classList.toggle('active');
-    
+
     const tooltip = document.getElementById('music-tooltip');
     if(tooltip) {
         tooltip.style.display = 'none';
@@ -97,7 +97,7 @@ function updateCountdown() {
 
     const container = document.getElementById('countdown');
     if(!container) return;
-    
+
     const timeUnits = [
         { value: days, label: 'Days' },
         { value: hours, label: 'Hours' },
@@ -120,7 +120,7 @@ updateCountdown();
 function startPetals() {
     const container = document.getElementById('petals-container');
     const colors = ['#F9F9F5', '#E8F5E9', '#FFFFFF'];
-    
+
     const isMobile = window.innerWidth < 768;
     const spawnRate = isMobile ? 1200 : 600;
 
@@ -129,18 +129,18 @@ function startPetals() {
 
         const petal = document.createElement('div');
         petal.classList.add('petal');
-        
+
         const left = Math.random() * 90;
         const size = Math.random() * 10 + 10;
         const duration = Math.random() * 5 + 5;
         const color = colors[Math.floor(Math.random() * colors.length)];
-        
+
         petal.style.left = `${left}vw`;
         petal.style.width = `${size}px`;
         petal.style.height = `${size}px`;
         petal.style.backgroundColor = color;
         petal.style.animationDuration = `${duration}s`;
-        
+
         container.appendChild(petal);
 
         setTimeout(() => {
@@ -173,23 +173,11 @@ window.addEventListener('scroll', () => {
     const nav = document.getElementById('navbar');
     const musicPlayer = document.getElementById('music-player');
     const musicTooltip = document.getElementById('music-tooltip');
-    
+
     if (window.scrollY > 50) {
         nav.classList.add('scrolled');
     } else {
         nav.classList.remove('scrolled');
-    }
-    
-    if (window.scrollY > 300) {
-        musicPlayer.classList.add('scrolled-visible');
-        if (musicTooltip && musicTooltip.style.display !== 'none') {
-            musicTooltip.classList.add('tooltip-visible');
-        }
-    } else {
-        musicPlayer.classList.remove('scrolled-visible');
-        if (musicTooltip) {
-            musicTooltip.classList.remove('tooltip-visible');
-        }
     }
 }, { passive: true });
 
@@ -197,7 +185,7 @@ window.addEventListener('scroll', () => {
 function toggleMobileMenu() {
     const menu = document.getElementById('mobile-menu');
     const isOpen = !menu.classList.contains('translate-x-full');
-    
+
     if (isOpen) {
         menu.classList.add('translate-x-full');
         // Re-enable body scroll
@@ -217,7 +205,7 @@ function toggleMobileMenu() {
 function toggleRSVP() {
     const modal = document.getElementById('rsvp-modal');
     const isOpen = modal.classList.contains('open');
-    
+
     if (isOpen) {
         modal.classList.remove('open');
         document.body.style.overflow = '';
@@ -244,9 +232,9 @@ document.getElementById('rsvp-modal').addEventListener('click', (e) => {
 setInterval(() => {
     const curtain = document.getElementById('curtain-overlay');
     const rsvpModal = document.getElementById('rsvp-modal');
-    
+
     // Only enable scroll if curtain is hidden and RSVP is closed
-    if (curtain && curtain.classList.contains('hidden') && 
+    if (curtain && curtain.classList.contains('hidden') &&
         rsvpModal && !rsvpModal.classList.contains('open')) {
         if (document.body.classList.contains('noscroll')) {
             document.body.classList.remove('noscroll');
