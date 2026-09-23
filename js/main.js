@@ -24,7 +24,7 @@ function openCurtain() {
 function toggleMobileMenu(forceClose) {
     const open = forceClose === false ? false : !mobileMenu.classList.contains("open");
     mobileMenu.classList.toggle("open", open);
-    setLocked(open || rsvpModal.classList.contains("open"));
+    setLocked(open);
 }
 
 function ensureRsvpFrame() {
