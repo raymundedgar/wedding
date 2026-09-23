@@ -45,7 +45,7 @@ function toggleRSVP(forceClose) {
     }
     rsvpModal.classList.toggle("open", open);
     // document.body.classList.toggle("locked", mobileMenu.classList.contains("open"));
-    document.body.classList.remove("locked");
+    setLocked(false);
 }
 
 document.querySelectorAll("[data-open-curtain]").forEach((el) => {
