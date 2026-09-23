@@ -520,14 +520,14 @@ button {
     object-fit: cover;
 }
 
-.card-body { padding: 2rem; }
+.card-body { padding: 1rem 2rem 2rem 2rem; }
 
 .icon-badge {
     display: inline-grid;
     place-items: center;
     width: 4rem;
     height: 4rem;
-    margin: -4.5rem auto 1.25rem;
+    margin-top: -2rem;
     background: #fff;
     border-radius: 50%;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -572,7 +572,7 @@ button {
     font-weight: 500;
 }
 
-.respect {
+.reminders {
     max-width: 48rem;
     margin: 0 auto;
     background: #2F3E28;
@@ -583,18 +583,18 @@ button {
 }
 
 @media (min-width: 768px) {
-    .respect { padding: 3rem; }
+    .reminders { padding: 3rem; }
 }
 
-.respect svg { margin: 0 auto 1rem; color: var(--sage); }
+.reminders svg { margin: 0 auto 1rem; color: var(--sage); }
 
-.respect h4 {
+.reminders h4 {
     margin: 0 0 0.5rem;
     font-size: 1.4rem;
     text-transform: uppercase;
 }
 
-.respect p {
+.reminders p {
     margin: 0;
     color: rgba(255, 255, 255, 0.8);
 }
