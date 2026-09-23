@@ -1,270 +1,104 @@
-// Initialize Lucide Icons
-lucide.createIcons();
+const RSVP_SRC = "https://docs.google.com/forms/d/e/1FAIpQLSdL6M2oB0jDL3Y_hjEWuLXrq4GfZix8On-zWswUIryAUu2Vpg/viewform?embedded=true";
 
-// Curtain Logic
-let curtainPetalInterval;
+const curtain = document.getElementById("curtain");
+const navbar = document.getElementById("navbar");
+const mobileMenu = document.getElementById("mobile-menu");
+const rsvpModal = document.getElementById("rsvp-modal");
+const formSlot = document.getElementById("form-slot");
+const audio = document.getElementById("bg-music");
+const player = document.getElementById("music-player");
 
-function startCurtainPetals() {
-    const container = document.getElementById('curtain-petals');
-    const colors = ['#D4AF37', '#FFF', '#F9F9F5', '#E8F5E9'];
-
-    const isMobile = window.innerWidth < 768;
-    const intervalTime = isMobile ? 800 : 400;
-
-    curtainPetalInterval = setInterval(() => {
-        const petal = document.createElement('div');
-        petal.classList.add('petal');
-
-        const left = Math.random() * 90;
-        const size = Math.random() * 8 + 5;
-        const duration = Math.random() * 4 + 4;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-
-        petal.style.left = `${left}vw`;
-        petal.style.width = `${size}px`;
-        petal.style.height = `${size}px`;
-        petal.style.backgroundColor = color;
-        petal.style.animationDuration = `${duration}s`;
-        petal.style.opacity = Math.random() * 0.5 + 0.3;
-
-        container.appendChild(petal);
-
-        setTimeout(() => {
-            petal.remove();
-        }, duration * 1000);
-    }, intervalTime);
+function setLocked(locked) {
+    document.documentElement.classList.toggle("locked", locked);
+    document.body.classList.toggle("locked", locked);
 }
-
-// Start curtain petals immediately
-startCurtainPetals();
 
 function openCurtain() {
-    const curtain = document.getElementById('curtain-overlay');
-    curtain.classList.add('open');
+    if (!curtain || curtain.classList.contains("open")) return;
+    curtain.classList.add("open");
+    setLocked(false);
+    if (audio) audio.play().catch(() => {});
+    setTimeout(() => curtain.classList.add("gone"), 1600);
+}
 
-    // Start background music directly inside this handler — this is the
-    // one guaranteed real user gesture on the page ("Tap to Open"), so
-    // calling play() here (rather than relying only on a generic
-    // document-level listener) is the most reliable way to satisfy
-    // mobile browsers' autoplay-requires-gesture policies.
-    const bgMusic = document.getElementById('bg-music');
-    if (bgMusic) {
-        bgMusic.play().catch(() => {});
+function toggleMobileMenu(forceClose) {
+    const open = forceClose === false ? false : !mobileMenu.classList.contains("open");
+    mobileMenu.classList.toggle("open", open);
+    setLocked(open || rsvpModal.classList.contains("open"));
+}
+
+function ensureRsvpFrame() {
+    if (formSlot.querySelector("iframe")) return;
+    const frame = document.createElement("iframe");
+    frame.src = RSVP_SRC;
+    frame.title = "RSVP form";
+    frame.loading = "lazy";
+    formSlot.replaceChildren(frame);
+}
+
+function toggleRSVP(forceClose) {
+    const open = forceClose === false ? false : !rsvpModal.classList.contains("open");
+    if (open) {
+        ensureRsvpFrame();
+        mobileMenu.classList.remove("open");
     }
-
-    // Remove scroll lock - multiple methods for reliability
-    document.body.classList.remove('noscroll');
-    document.body.style.position = '';
-    document.body.style.width = '';
-    document.body.style.overflow = '';
-    document.body.style.height = '';
-    document.documentElement.style.overflow = '';
-
-    clearInterval(curtainPetalInterval);
-    const curtainPetalContainer = document.getElementById('curtain-petals');
-    if(curtainPetalContainer) curtainPetalContainer.innerHTML = '';
-
-    setTimeout(() => {
-        curtain.classList.add('hidden');
-        startPetals();
-    }, 1500);
+    rsvpModal.classList.toggle("open", open);
+    document.body.classList.toggle("locked", open || mobileMenu.classList.contains("open"));
 }
 
-// Music Toggle
-function toggleMusic() {
-    const player = document.getElementById('music-player');
-    player.classList.toggle('active');
+document.querySelectorAll("[data-open-curtain]").forEach((el) => {
+    el.addEventListener("click", openCurtain);
+});
 
-    const tooltip = document.getElementById('music-tooltip');
-    if(tooltip) {
-        tooltip.style.display = 'none';
-    }
-}
+document.querySelectorAll("[data-menu]").forEach((el) => {
+    el.addEventListener("click", () => toggleMobileMenu());
+});
 
-// Countdown Timer
-const eventDate = new Date('2026-12-12T14:00:00').getTime();
+document.querySelectorAll("[data-rsvp]").forEach((el) => {
+    el.addEventListener("click", () => toggleRSVP());
+});
 
-function updateCountdown() {
-    const now = new Date().getTime();
-    const distance = eventDate - now;
+mobileMenu.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => toggleMobileMenu(false));
+});
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+rsvpModal.addEventListener("click", (e) => {
+    if (e.target === rsvpModal) toggleRSVP(false);
+});
 
-    const container = document.getElementById('countdown');
-    if(!container) return;
-
-    const timeUnits = [
-        { value: days, label: 'Days' },
-        { value: hours, label: 'Hours' },
-        { value: minutes, label: 'Minutes' },
-        { value: seconds, label: 'Seconds' }
-    ];
-
-    container.innerHTML = timeUnits.map(unit => `
-        <div class="flex flex-col items-center">
-            <span class="text-4xl md:text-6xl font-serif font-light">${unit.value}</span>
-            <span class="text-xs uppercase tracking-widest opacity-60 mt-2 text-[#D4AF37]">${unit.label}</span>
-        </div>
-    `).join('');
-}
-
-setInterval(updateCountdown, 1000);
-updateCountdown();
-
-// Flying Petals
-let isUserScrolling = false;
-let scrollStopTimer;
-window.addEventListener('scroll', () => {
-    isUserScrolling = true;
-    clearTimeout(scrollStopTimer);
-    scrollStopTimer = setTimeout(() => { isUserScrolling = false; }, 200);
+window.addEventListener("scroll", () => {
+    navbar.classList.toggle("scrolled", window.scrollY > 50);
 }, { passive: true });
 
-function startPetals() {
-    const container = document.getElementById('petals-container');
-    const colors = ['#F9F9F5', '#E8F5E9', '#FFFFFF'];
-
-    const isMobile = window.innerWidth < 768;
-    const spawnRate = isMobile ? 1800 : 600;
-    const maxPetals = isMobile ? 5 : 30;
-
-    setInterval(() => {
-        // Skip spawning new petals while the user is actively scrolling,
-        // so the main thread isn't doing DOM work during the scroll gesture
-        if (isUserScrolling) return;
-        if(container.childElementCount > maxPetals) return;
-
-        const petal = document.createElement('div');
-        petal.classList.add('petal');
-
-        const left = Math.random() * 90;
-        const size = Math.random() * 10 + 10;
-        const duration = Math.random() * 5 + 5;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-
-        petal.style.left = `${left}vw`;
-        petal.style.width = `${size}px`;
-        petal.style.height = `${size}px`;
-        petal.style.backgroundColor = color;
-        petal.style.animationDuration = `${duration}s`;
-
-        container.appendChild(petal);
-
-        setTimeout(() => {
-            petal.remove();
-        }, duration * 1000);
-    }, spawnRate);
-}
-
-// Scroll Effects
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+const eventDate = new Date("2026-12-12T14:00:00").getTime();
+const countdownEls = {
+    days: document.getElementById("cd-days"),
+    hours: document.getElementById("cd-hours"),
+    minutes: document.getElementById("cd-minutes"),
+    seconds: document.getElementById("cd-seconds"),
 };
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-        }
+function updateCountdown() {
+    const distance = eventDate - Date.now();
+    const pad = (n) => String(Math.max(0, n));
+    countdownEls.days.textContent = pad(Math.floor(distance / 86400000));
+    countdownEls.hours.textContent = pad(Math.floor((distance % 86400000) / 3600000));
+    countdownEls.minutes.textContent = pad(Math.floor((distance % 3600000) / 60000));
+    countdownEls.seconds.textContent = pad(Math.floor((distance % 60000) / 1000));
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+if (audio && player) {
+    audio.volume = 0.4;
+    const sync = () => player.classList.toggle("playing", !audio.paused);
+    audio.addEventListener("play", sync);
+    audio.addEventListener("pause", sync);
+    player.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (audio.paused) audio.play().catch(() => {});
+        else audio.pause();
     });
-}, observerOptions);
-
-document.querySelectorAll('.fade-in-section').forEach(section => {
-    observer.observe(section);
-});
-
-// Navbar & Music Scroll Logic
-window.addEventListener('scroll', () => {
-    const nav = document.getElementById('navbar');
-    const musicPlayer = document.getElementById('music-player');
-    const musicTooltip = document.getElementById('music-tooltip');
-
-    if (window.scrollY > 50) {
-        nav.classList.add('scrolled');
-    } else {
-        nav.classList.remove('scrolled');
-    }
-}, { passive: true });
-
-// Shared scroll-lock helper that preserves scroll position across
-// position:fixed toggling (prevents the page jumping to top on close)
-let lockedScrollY = 0;
-
-function lockBodyScroll() {
-    lockedScrollY = window.scrollY;
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${lockedScrollY}px`;
-    document.body.style.width = '100%';
-    document.body.style.overflow = 'hidden';
+    sync();
 }
-
-function unlockBodyScroll() {
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
-    document.body.style.overflow = '';
-    document.body.style.height = '';
-    window.scrollTo(0, lockedScrollY);
-}
-
-// Mobile Menu
-function toggleMobileMenu() {
-    const menu = document.getElementById('mobile-menu');
-    const isOpen = !menu.classList.contains('translate-x-full');
-
-    if (isOpen) {
-        menu.classList.add('translate-x-full');
-        unlockBodyScroll();
-    } else {
-        menu.classList.remove('translate-x-full');
-        lockBodyScroll();
-    }
-}
-
-// RSVP Modal Logic
-function toggleRSVP() {
-    const modal = document.getElementById('rsvp-modal');
-    const isOpen = modal.classList.contains('open');
-
-    if (isOpen) {
-        modal.classList.remove('open');
-        unlockBodyScroll();
-    } else {
-        modal.classList.add('open');
-        lockBodyScroll();
-    }
-}
-
-// Close RSVP on outside click
-document.getElementById('rsvp-modal').addEventListener('click', (e) => {
-    if (e.target.id === 'rsvp-modal') {
-        toggleRSVP();
-    }
-});
-
-// Mobile scroll fix: Ensure body scrolling is always enabled.
-// Safety-net check, but bounded — no need to poll forever after the
-// curtain has opened once, since that was the only real risk window.
-let scrollFixChecks = 0;
-const scrollFixInterval = setInterval(() => {
-    scrollFixChecks++;
-    const curtain = document.getElementById('curtain-overlay');
-    const rsvpModal = document.getElementById('rsvp-modal');
-
-    if (curtain && curtain.classList.contains('hidden') &&
-        rsvpModal && !rsvpModal.classList.contains('open')) {
-        if (document.body.classList.contains('noscroll')) {
-            document.body.classList.remove('noscroll');
-            document.body.style.overflow = '';
-            document.body.style.position = '';
-            document.body.style.height = '';
-        }
-    }
-
-    if (scrollFixChecks > 10) clearInterval(scrollFixInterval); // stop after ~10s
-}, 1000);
