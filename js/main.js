@@ -90,6 +90,27 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
+const petalField = document.getElementById("petals");
+if (petalField && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const PETAL_COUNT = window.innerWidth < 640 ? 6 : 10;
+    for (let i = 0; i < PETAL_COUNT; i++) {
+        const petal = document.createElement("span");
+        petal.className = "petal";
+        const size = 8 + Math.random() * 8;
+        const duration = 10 + Math.random() * 10;
+        const delay = -Math.random() * duration;
+        const sway = (20 + Math.random() * 30) * (Math.random() < 0.5 ? -1 : 1);
+        petal.style.left = Math.random() * 100 + "vw";
+        petal.style.width = size + "px";
+        petal.style.height = size * 1.3 + "px";
+        petal.style.setProperty("--sway", sway + "px");
+        petal.style.setProperty("--opacity", (0.5 + Math.random() * 0.4).toFixed(2));
+        petal.style.animationDuration = duration + "s";
+        petal.style.animationDelay = delay + "s";
+        petalField.appendChild(petal);
+    }
+}
+
 if (audio && player) {
     audio.volume = 0.4;
     const sync = () => player.classList.toggle("playing", !audio.paused);
