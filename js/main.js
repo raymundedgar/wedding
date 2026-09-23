@@ -24,6 +24,7 @@ function openCurtain() {
 function toggleMobileMenu(forceClose) {
     const open = forceClose === false ? false : !mobileMenu.classList.contains("open");
     mobileMenu.classList.toggle("open", open);
+    // setLocked(open || rsvpModal.classList.contains("open"));
     setLocked(open);
 }
 
@@ -43,7 +44,8 @@ function toggleRSVP(forceClose) {
         mobileMenu.classList.remove("open");
     }
     rsvpModal.classList.toggle("open", open);
-    document.body.classList.toggle("locked", mobileMenu.classList.contains("open"));
+    // document.body.classList.toggle("locked", mobileMenu.classList.contains("open"));
+    document.body.classList.remove("locked");
 }
 
 document.querySelectorAll("[data-open-curtain]").forEach((el) => {
