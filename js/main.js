@@ -123,5 +123,29 @@ if (audio && player) {
         if (audio.paused) audio.play().catch(() => {});
         else audio.pause();
     });
+
+    // Auto-pause when tab is hidden or window loses focus; resume when back
+    let resumeOnReturn = false;
+    const isAway = () => document.hidden || !document.hasFocus();
+
+    const handleAway = () => {
+        if (isAway() && !audio.paused) {
+            resumeOnReturn = true;
+            audio.pause();
+        }
+    };
+    const handleReturn = () => {
+        if (!isAway() && resumeOnReturn) {
+            resumeOnReturn = false;
+            audio.play().catch(() => {});
+        }
+    };
+
+    document.addEventListener("visibilitychange", () => {
+        document.hidden ? handleAway() : handleReturn();
+    });
+    window.addEventListener("blur", handleAway);
+    window.addEventListener("focus", handleReturn);
+
     sync();
 }
