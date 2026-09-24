@@ -21,7 +21,12 @@
         <div class="curtain-copy">
             <h1 class="script">R & Y</h1>
             <p>A Lifetime in the Making</p>
-            <div class="tap-pill">Tap to Open</div>
+            <div id="invite-curtain" class="invite-banner" hidden>
+                <p class="invite-label">You are invited</p>
+                <ul class="invite-names"></ul>
+            </div>
+            <p id="invite-status" class="invite-status">Verifying your invitation…</p>
+            <div class="tap-pill" id="tap-pill" hidden>Tap to Open</div>
         </div>
     </div>
 
@@ -74,6 +79,10 @@
                 <p class="when">December 12, 2026</p>
                 <p class="time">Saturday at 2:00 PM</p>
             </div>
+            <!-- <div id="invite-hero" class="invite-banner" hidden>
+                <p class="invite-label">This invitation is exclusively for</p>
+                <ul class="invite-names"></ul>
+            </div> -->
         </div>
         <a class="scroll-hint" href="#quote-section" aria-label="Scroll to next section">
             <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>

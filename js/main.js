@@ -1,4 +1,5 @@
 const RSVP_SRC = "https://docs.google.com/forms/d/e/1FAIpQLSdL6M2oB0jDL3Y_hjEWuLXrq4GfZix8On-zWswUIryAUu2Vpg/viewform?embedded=true";
+const INVITES_SRC = "data/invites.json";
 
 const curtain = document.getElementById("curtain");
 const navbar = document.getElementById("navbar");
@@ -13,7 +14,10 @@ function setLocked(locked) {
     document.body.classList.toggle("locked", locked);
 }
 
+let inviteGranted = false;
+
 function openCurtain() {
+    if (!inviteGranted) return;
     if (!curtain || curtain.classList.contains("open")) return;
     curtain.classList.add("open");
     setLocked(false);
@@ -149,3 +153,74 @@ if (audio && player) {
 
     sync();
 }
+
+// --- Invite verification (?inviteCode=xxx required) ---
+const inviteStatusEl = document.getElementById("invite-status");
+const tapPillEl = document.getElementById("tap-pill");
+
+function denyInvite(message) {
+    inviteGranted = false;
+    if (inviteStatusEl) {
+        inviteStatusEl.textContent = message;
+        inviteStatusEl.hidden = false;
+    }
+    if (tapPillEl) tapPillEl.hidden = true;
+}
+
+function grantInvite(names) {
+    inviteGranted = true;
+    if (inviteStatusEl) inviteStatusEl.hidden = true;
+    if (tapPillEl) tapPillEl.hidden = false;
+    showInviteNames(names);
+}
+
+async function loadInvite() {
+    const code = new URLSearchParams(window.location.search).get("inviteCode");
+    if (!code) {
+        denyInvite("This is a private invitation. Please use the personalized link that was sent to you.");
+        return;
+    }
+
+    try {
+        const res = await fetch(INVITES_SRC, { cache: "no-store" });
+        if (!res.ok) {
+            denyInvite("We couldn't verify your invitation. Please try again later.");
+            return;
+        }
+        const invites = await res.json();
+
+        // case-insensitive match against the flat file's keys
+        const key = Object.keys(invites).find(
+            (k) => k.toLowerCase() === code.trim().toLowerCase()
+        );
+        if (!key) {
+            denyInvite("We couldn't find that invitation. Please check the link you received.");
+            return;
+        }
+
+        const names = invites[key];
+        grantInvite(Array.isArray(names) ? names : [String(names)]);
+    } catch (err) {
+        console.warn("Invite list unavailable:", err);
+        denyInvite("We couldn't verify your invitation. Please try again later.");
+    }
+}
+
+function showInviteNames(names) {
+    [document.getElementById("invite-curtain"), document.getElementById("invite-hero")].forEach((el) => {
+        if (!el) return;
+        const nameList = el.querySelector(".invite-names");
+        if (nameList) {
+            nameList.replaceChildren(
+                ...names.map((name) => {
+                    const li = document.createElement("li");
+                    li.textContent = name;
+                    return li;
+                })
+            );
+        }
+        el.hidden = false;
+    });
+}
+
+loadInvite();
