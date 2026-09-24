@@ -735,6 +735,39 @@ button {
     font-size: 1.1rem;
 }
 
+.rsvp-notice {
+    max-width: 600px;
+    margin: 24px auto;
+    padding: 22px 24px;
+    border: 1px solid #fff;
+    border-radius: 12px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.rsvp-notice-title {
+    margin-bottom: 12px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+.rsvp-notice p {
+    margin: 1.5rem 0;
+    line-height: 1.6;
+}
+
+.rsvp-notice strong {
+    font-weight: 700;
+}
+
+@media (max-width: 600px) {
+    .rsvp-notice {
+        padding: 18px 16px;
+        margin: 20px 0;
+    }
+}
+
 .btn {
     display: inline-block;
     background: var(--gold);
