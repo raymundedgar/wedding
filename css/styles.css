@@ -785,6 +785,11 @@ p.invite-label {
     text-align: center;
 }
 
+.rsvp-meaning {
+    margin-top: -1rem;
+    font-size: 0.7rem;
+}
+
 .rsvp-bg {
     position: absolute;
     inset: 0;
