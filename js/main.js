@@ -2,6 +2,7 @@ const RSVP_SRC = "https://docs.google.com/forms/d/e/1FAIpQLSdL6M2oB0jDL3Y_hjEWuL
 const INVITES_SRC = "data/invites.json";
 
 const curtain = document.getElementById("curtain");
+const siteContent = document.getElementById("site-content");
 const navbar = document.getElementById("navbar");
 const mobileMenu = document.getElementById("mobile-menu");
 const rsvpModal = document.getElementById("rsvp-modal");
@@ -21,6 +22,7 @@ function openCurtain() {
     if (!curtain || curtain.classList.contains("open")) return;
     curtain.classList.add("open");
     setLocked(false);
+    if (siteContent) siteContent.inert = false;
     if (audio) audio.play().catch(() => {});
     setTimeout(() => curtain.classList.add("gone"), 1600);
 }
@@ -224,3 +226,20 @@ function showInviteNames(names) {
 }
 
 loadInvite();
+
+// --- Deter casual right-click / view-source / devtools access ---
+// Note: this is a deterrent for casual guests, not real security — anyone who
+// really wants to can still open dev tools or fetch the page's HTML directly.
+document.addEventListener("contextmenu", (e) => e.preventDefault());
+
+document.addEventListener("dragstart", (e) => e.preventDefault());
+
+document.addEventListener("keydown", (e) => {
+    const key = e.key.toLowerCase();
+    const blockedCombo =
+        key === "f12" ||
+        ((e.ctrlKey || e.metaKey) && key === "u") || // view source
+        ((e.ctrlKey || e.metaKey) && key === "s") || // save page
+        ((e.ctrlKey || e.metaKey) && e.shiftKey && ["i", "j", "c"].includes(key)); // devtools panels
+    if (blockedCombo) e.preventDefault();
+});

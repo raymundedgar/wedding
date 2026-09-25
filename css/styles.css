@@ -31,6 +31,19 @@ body {
     color: var(--dark-green);
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Allow selecting text inside the embedded RSVP form / any future inputs */
+input, textarea, #form-slot, #form-slot * {
+    -webkit-user-select: auto;
+    user-select: auto;
+}
+
+img {
+    -webkit-user-drag: none;
+    user-drag: none;
 }
 
 html.locked,
