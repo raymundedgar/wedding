@@ -785,7 +785,7 @@ p.invite-label {
     text-align: center;
 }
 
-.rsvp-meaning {
+.rsvp p.rsvp-meaning {
     margin-top: -1rem;
     font-size: 0.7rem;
 }
