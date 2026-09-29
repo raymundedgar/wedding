@@ -156,7 +156,7 @@ if (audio && player) {
     sync();
 }
 
-// --- Invite verification (?inviteCode=xxx required) ---
+// --- Invite verification (?invite=xxx required) ---
 const inviteStatusEl = document.getElementById("invite-status");
 const tapPillEl = document.getElementById("tap-pill");
 
@@ -177,7 +177,7 @@ function grantInvite(names) {
 }
 
 async function loadInvite() {
-    const code = new URLSearchParams(window.location.search).get("inviteCode");
+    const code = new URLSearchParams(window.location.search).get("invite");
     if (!code) {
         denyInvite("This is a private invitation. Please use the personalized link that was sent to you.");
         return;
