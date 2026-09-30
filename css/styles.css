@@ -872,6 +872,10 @@ footer {
 
 footer p { margin: 0; }
 
+footer a {
+    color: inherit;
+}
+
 /* Music */
 #music-player {
     position: fixed;
