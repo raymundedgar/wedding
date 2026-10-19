@@ -207,7 +207,6 @@ async function loadInvite() {
 }
 
 function showInviteNames(key, names) {
-    const limited = ["de-mesa", "mesa", "elsie", "morales"].includes(key);
 
     ["invite-curtain", "invite-hero"].forEach((id) => {
         const el = document.getElementById(id);
@@ -221,11 +220,11 @@ function showInviteNames(key, names) {
             })
         );
 
+        console.log("Key: " + key);
+        const limited = ["de-mesa", "mesa", "elsie", "morales"].includes(key);
         const note = el.querySelector(".invite-note");
-        if (note) {
-            note.textContent = limited
-                ? "NOTE: 2 persons per family only due to limited number of seats"
-                : "";
+        if (limited) {
+            note.textContent = "NOTE: 2 persons per family only due to limited number of seats";
         }
 
         el.hidden = false;
