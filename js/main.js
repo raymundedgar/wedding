@@ -223,7 +223,7 @@ function showInviteNames(key, names) {
         const limited = ["de-mesa", "mesa", "elsie", "morales"].includes(key);
         document.querySelectorAll(".invite-note").forEach((note) => {
             note.textContent = limited
-                ? "NOTE: 2 persons per family only due to limited number of seats"
+                ? "NOTE: Limited to 2 persons per family due to the limited number of seats."
                 : "";
         });
 
