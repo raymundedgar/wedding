@@ -220,7 +220,6 @@ function showInviteNames(key, names) {
             })
         );
 
-        console.log("Key: " + key);
         const limited = ["de-mesa", "mesa", "elsie", "morales"].includes(key);
         document.querySelectorAll(".invite-note").forEach((note) => {
             note.textContent = limited
