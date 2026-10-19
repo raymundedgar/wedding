@@ -220,12 +220,11 @@ function showInviteNames(key, names) {
             })
         );
 
-        console.log("Key: " + key);
-        const limited = ["de-mesa", "mesa", "elsie", "morales"].includes(key);
-        const note = el.querySelector(".invite-note");
-        if (limited) {
-            note.textContent = "NOTE: 2 persons per family only due to limited number of seats";
-        }
+        document.querySelectorAll(".invite-note").forEach((note) => {
+            note.textContent = limited
+                ? "NOTE: 2 persons per family only due to limited number of seats"
+                : "";
+        });
 
         el.hidden = false;
     });
