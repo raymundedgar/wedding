@@ -224,7 +224,7 @@ function showInviteNames(key, names) {
         );
 
         el.querySelector(".invite-note").textContent = limited
-            ? "2 persons per family only due to limited number of seats"
+            ? "NOTE: 2 persons per family only due to limited number of seats"
             : "";
 
         el.hidden = false;
