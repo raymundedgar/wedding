@@ -1006,3 +1006,13 @@ footer a {
 
     .petals { display: none; }
 }
+
+p.invite-note {
+    margin: 0;
+    color: #fff;
+    opacity: 0.85;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    line-height: 1.4;
+}
