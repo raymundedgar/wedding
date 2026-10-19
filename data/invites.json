@@ -1,6 +1,10 @@
 {
   "xxx": ["Test"],
   "joker": ["Mr. Joker"],
+  "meliton": ["Arch. Roberto R. Meliton"],
+  "rexy": ["Dr. Rexy C. Alvarez"],
+  "maricres": ["Ninang Maricres C. Huit"],
+  "cris": ["Dra. Cristela V. Veñegas"],
   "ferdz": ["Kuya Ferdz", "Ate Joy", "Skye", "Ate Jabee", "Simone"],
   "don": ["Kuya Don", "Ate Chek", "Mamu", "EJ", "Jairah"],
   "ed": ["Mr. Edwin Martinez & Ms. Arisa Tee"],
@@ -25,6 +29,11 @@
   "kimbe": "Ms. Kimberly Alarte",
   "ivy": ["Tito Levy Alvarez", "Tita Julieta Alvarez", "Ivy Alvarez", "Irish Alvarez"],
   "joan": ["Ms. Joan Dy"],
+
+  "de-mesa": ["De Mesa Family"],
+  "mesa": ["Mesa Family"],
+  "elsie": ["Tita Elsie and Family"],
+  "morales": ["Morales Family"],
 
   "grandparents": ["Lolo Ben", "Lola Virgie"],
   "calefamily": ["Ninong Ranran Cale", "Ninang Leslie Cale"],

@@ -169,11 +169,11 @@ function denyInvite(message) {
     if (tapPillEl) tapPillEl.hidden = true;
 }
 
-function grantInvite(names) {
+function grantInvite(key, names) {
     inviteGranted = true;
     if (inviteStatusEl) inviteStatusEl.hidden = true;
     if (tapPillEl) tapPillEl.hidden = false;
-    showInviteNames(names);
+    showInviteNames(key, names);
 }
 
 async function loadInvite() {
@@ -201,26 +201,32 @@ async function loadInvite() {
         }
 
         const names = invites[key];
-        grantInvite(Array.isArray(names) ? names : [String(names)]);
+        grantInvite(key, Array.isArray(names) ? names : [String(names)]);
     } catch (err) {
         console.warn("Invite list unavailable:", err);
         denyInvite("We couldn't verify your invitation. Please try again later.");
     }
 }
 
-function showInviteNames(names) {
-    [document.getElementById("invite-curtain"), document.getElementById("invite-hero")].forEach((el) => {
+function showInviteNames(key, names) {
+    const limited = ["de-mesa", "mesa", "elsie", "morales"].includes(key);
+
+    ["invite-curtain", "invite-hero"].forEach((id) => {
+        const el = document.getElementById(id);
         if (!el) return;
-        const nameList = el.querySelector(".invite-names");
-        if (nameList) {
-            nameList.replaceChildren(
-                ...names.map((name) => {
-                    const li = document.createElement("li");
-                    li.textContent = name;
-                    return li;
-                })
-            );
-        }
+
+        el.querySelector(".invite-names").replaceChildren(
+            ...names.map((name) => {
+                const li = document.createElement("li");
+                li.textContent = name;
+                return li;
+            })
+        );
+
+        el.querySelector(".invite-note").textContent = limited
+            ? "2 persons per family only due to limited number of seats"
+            : "";
+
         el.hidden = false;
     });
 }
