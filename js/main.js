@@ -183,29 +183,27 @@ async function loadInvite() {
         return;
     }
 
+    let invites;
     try {
         const res = await fetch(INVITES_SRC, { cache: "no-store" });
-        if (!res.ok) {
-            denyInvite("We couldn't verify your invitation. Please try again later.");
-            return;
-        }
-        const invites = await res.json();
-
-        // case-insensitive match against the flat file's keys
-        const key = Object.keys(invites).find(
-            (k) => k.toLowerCase() === code.trim().toLowerCase()
-        );
-        if (!key) {
-            denyInvite("We couldn't find that invitation. Please check the link you received.");
-            return;
-        }
-
-        const names = invites[key];
-        grantInvite(key, Array.isArray(names) ? names : [String(names)]);
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        invites = await res.json();
     } catch (err) {
         console.warn("Invite list unavailable:", err);
         denyInvite("We couldn't verify your invitation. Please try again later.");
+        return;
     }
+
+    const key = Object.keys(invites).find(
+        (k) => k.toLowerCase() === code.trim().toLowerCase()
+    );
+    if (!key) {
+        denyInvite("We couldn't find that invitation. Please check the link you received.");
+        return;
+    }
+
+    const names = invites[key];
+    grantInvite(key.toLowerCase(), Array.isArray(names) ? names : [String(names)]);
 }
 
 function showInviteNames(key, names) {
@@ -215,7 +213,7 @@ function showInviteNames(key, names) {
         const el = document.getElementById(id);
         if (!el) return;
 
-        el.querySelector(".invite-names").replaceChildren(
+        el.querySelector(".invite-names")?.replaceChildren(
             ...names.map((name) => {
                 const li = document.createElement("li");
                 li.textContent = name;
@@ -223,9 +221,12 @@ function showInviteNames(key, names) {
             })
         );
 
-        el.querySelector(".invite-note").textContent = limited
-            ? "NOTE: 2 persons per family only due to limited number of seats"
-            : "";
+        const note = el.querySelector(".invite-note");
+        if (note) {
+            note.textContent = limited
+                ? "NOTE: 2 persons per family only due to limited number of seats"
+                : "";
+        }
 
         el.hidden = false;
     });
