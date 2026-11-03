@@ -207,6 +207,8 @@ async function loadInvite() {
 }
 
 function showInviteNames(key, names) {
+    const limitedCodes = ["de-mesa", "mesa", "elsie", "morales", "de-luna", "acula", "romero"];
+    const limited = limitedCodes.includes(key);
 
     ["invite-curtain", "invite-hero"].forEach((id) => {
         const el = document.getElementById(id);
@@ -220,7 +222,6 @@ function showInviteNames(key, names) {
             })
         );
 
-        const limited = ["de-mesa", "mesa", "elsie", "morales"].includes(key);
         document.querySelectorAll(".invite-note").forEach((note) => {
             note.textContent = limited
                 ? "NOTE: Limited to 2 persons per family due to the limited number of seats."
