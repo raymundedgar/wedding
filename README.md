@@ -18,8 +18,9 @@ Replace `preview.jpg` to change the GitHub / social preview. Recommended size: 1
 - **Responsive UI** — Desktop nav plus a slide-in mobile menu, sticky navbar after scroll, and a masonry gallery.
 - **Performance** — Hero and splash images are preloaded. Photos ship as WebP with JPEG fallbacks. RSVP iframe is created only when the modal opens.
 - **Motion and accessibility** — Petal animation is skipped when `prefers-reduced-motion` is set. The main page is `inert` until the invite is granted so it cannot be tabbed into while locked.
+- **Client-side view-source deterrent** — Right-click, drag-to-save on images, F12, Ctrl/Cmd+U (view source), Ctrl/Cmd+S (save page), and common DevTools shortcuts (Ctrl/Cmd+Shift+I/J/C) are blocked in the browser. This only runs on the client. The site is hosted on **free Cloudflare Pages**, which is static hosting, so there is no server of our own to add headers, middleware, or other server-side controls. Anyone who wants to can still fetch the HTML or open DevTools another way; this is meant to discourage casual guests, not to hide the code.
 
-Frontend: HTML, CSS, and vanilla JavaScript. No framework, no build step.
+Frontend: HTML, CSS, and vanilla JavaScript. No framework, no build step. Hosted on Cloudflare Pages.
 
 ## How the invite flow works
 
