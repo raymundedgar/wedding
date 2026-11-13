@@ -207,7 +207,7 @@ async function loadInvite() {
 }
 
 function showInviteNames(key, names) {
-    const limitedCodes = ["de-mesa", "mesa", "elsie", "morales", "de-luna", "acula", "romero", "martizano-1"];
+    const limitedCodes = ["de-mesa", "mesa", "elsie", "morales", "de-luna", "acula", "romero", "martizano-1", "banagan"];
     const limited = limitedCodes.includes(key);
 
     ["invite-curtain", "invite-hero"].forEach((id) => {
